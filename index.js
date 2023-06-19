@@ -1,4 +1,3 @@
-const markDown = require('./utils/generateMarkdown');
 const inquirer = require('inquirer');
 const fs = require('fs');
 
@@ -108,3 +107,58 @@ const questions = [
     }
   }
 ];
+
+inquirer.prompt(questions).then((answers) => {
+  console.log(answers.license);
+  fs.writeFileSync('./dist/README.md', `
+# Table of Contents
+
+* [1. Title](#table-of-contents-1-title)
+* [2. Licenses](#table-of-contents-2-licenses)
+* [3. Description](#table-of-contents-3-description)
+* [4. Installation Instructions](#table-of-contents-4-installation-instructions)
+* [5. Usage Information](#table-of-contents-5-usage-information)
+* [6. Contributions](#table-of-contents-6-contributions)
+* [7. Tests](#tests)
+
+# Title
+
+## ${answers.title}
+
+# Licenses
+
+## This application is covered under the open-source software license:
+### ${answers.license}
+
+## License Badge:
+![](https://img.shields.io/badge/${encodeURIComponent(answers.license)}-blue.svg)
+
+# Description
+
+## ${answers.description}
+
+# Installation Instructions
+
+## ${answers.installation}
+
+# Usage Information
+
+## ${answers.usage}
+
+# Contributions
+
+## ${answers.contribution}
+
+# Tests
+
+## ${answers.test}
+
+# Questions
+
+## Link to my GitHub profile:
+https://www.github.com/${answers.github}
+
+## My email:
+${answers.email}
+`);
+});
